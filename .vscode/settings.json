@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "person.h": "c",
+        "level.h": "c",
+        "player.h": "c",
+        "gamestate.h": "c",
+        "home.h": "c",
+        "sprite.h": "c",
+        "background.h": "c",
+        "bg3print.h": "c"
+    }
+}

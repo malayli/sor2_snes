@@ -4,8 +4,8 @@
 
 int offset = 0;
 
-extern char __SOUNDBANK__0;
-extern char __SOUNDBANK__1;
+extern char SOUNDBANK__0;
+extern char SOUNDBANK__1;
 
 extern char blaze, blaze_end;
 extern char blaze_palette, blaze_palette_end;
@@ -16,12 +16,9 @@ extern char galsia_palette, galsial_palette_end;
 extern char signal_tiles, signal_tiles_end;
 extern char signal_palette, signal_palette_end;
 
-
 extern char patterns1,patterns1_end;
 extern char palette,palette_end;
 extern char map, map_end;
-
-
 
 extern char patterns2,patterns2_end;
 extern char palette2, palette2_end;
@@ -521,13 +518,13 @@ void animBackground () {
 				backgroundAnim = !backgroundAnim;
 
 				WaitForVBlank();
-				setPaletteColor (21+32,RGB15(31,4,0)); //24
-				setPaletteColor (24+32,RGB15(31,31,0)); //21				
-				setPaletteColor (18+32,RGB15(31,31,0)); //21
-				setPaletteColor (20+32,RGB15(0,4,13)); //17
-				setPaletteColor (26+32,RGB15(9,31,31)); //20
-				setPaletteColor (23+32,RGB15(0,9,0)); //20
-				setPaletteColor (25+32,RGB15(4,31,0)); //20
+				setPaletteColor (21+32,RGB5(31,4,0)); //24
+				setPaletteColor (24+32,RGB5(31,31,0)); //21				
+				setPaletteColor (18+32,RGB5(31,31,0)); //21
+				setPaletteColor (20+32,RGB5(0,4,13)); //17
+				setPaletteColor (26+32,RGB5(9,31,31)); //20
+				setPaletteColor (23+32,RGB5(0,9,0)); //20
+				setPaletteColor (25+32,RGB5(4,31,0)); //20
 				
 			  //WaitForVBlank();
 				//memcpy (paletteBuffer, &palette,paletteSize);
@@ -1119,8 +1116,8 @@ int main(void) {
 	// Set give soundbank
 	if (soundEnabled) {
 		spcSetModuleVolume (128);
-		spcSetBank(&__SOUNDBANK__1);
-		spcSetBank(&__SOUNDBANK__0);
+		spcSetBank(&SOUNDBANK__1);
+		spcSetBank(&SOUNDBANK__0);
 
 		// allocate around 10K of sound ram (39 256-byte blocks)
 		spcAllocateSoundRegion(39);
@@ -1141,7 +1138,7 @@ int main(void) {
 	}
 
 	//iniciando oamtable no endereço 4000
-	REG_OBSEL = OBJ_SIZE32 | (0x4000 >> 13);
+	REG_OBSEL = OBJ_SIZE32_L64 | (0x4000 >> 13);
 
 	inimigoApanhando = NULL;
 	ultimoInimigoApanhando = NULL;
@@ -1264,7 +1261,9 @@ int main(void) {
 	spr_queue = 0xff; spr_mutex = 0; bg_mutex = 0;
 	updateBG1 (&map,0x0000,2048);
 	updateBG2 (&map2,0x0000+2048,2048);
-	__nmi_handler=myconsoleVblank;
+	
+	nmiSet(myconsoleVblank);
+
 	u8 i;
 	// Wait for nothing :P
 	while(1) {
